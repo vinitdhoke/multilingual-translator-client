@@ -3,7 +3,7 @@ import './App.css';
 import {useState, useEffect} from "react";
 import TranslateForm from "./components/translate-form";
 import Conversions from "./components/conversions";
-const hostUrl="http://localhost:3001/";
+const hostUrl="https://quiet-brushlands-03850.herokuapp.com/";
 
 function App() {
   const [translations, setTranslations] = useState([]);
@@ -24,17 +24,22 @@ function App() {
     })
   }
   const translate=(to, text)=>{
-    fetch(hostUrl+'translate', {
-      method:'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body:JSON.stringify({to: to, text: text})
-    }).then(res=>res.json())
-    .then(data=>{
-      console.log(data)
-      setTranslations(data);
-    });
+    if(to && to.length>0 && text && text!==""){
+      fetch(hostUrl+'translate', {
+        method:'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify({to: to, text: text})
+      }).then(res=>res.json())
+      .then(data=>{
+        console.log(data)
+        setTranslations(data);
+      });
+    }else{
+      alert("Please fill details")
+    }
+    
   }
   return (
     <div className="App">
